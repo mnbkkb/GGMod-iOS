@@ -1,0 +1,43 @@
+
+Enter file contents here
+name: Build GGMod IPA
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Theos 依赖
+        run: |
+          brew install ldid
+          brew install ld64
+          sudo xcode-select --switch /Applications/Xcode.app
+          echo "THEOS=/Users/runner/theos" >> $GITHUB_ENV
+
+      - name: 安装 Theos
+        run: |
+          git clone --recursive https://github.com/theos/theos.git /Users/runner/theos
+          export THEOS=/Users/runner/theos
+          echo "$THEOS/toolchain/Xcode.xctoolchain/usr/bin/" >> $GITHUB_PATH
+
+      - name: 编译项目
+        run: |
+          export THEOS=/Users/runner/theos
+          cd $GITHUB_WORKSPACE
+          chmod +x build_ipa.sh
+          ./build_ipa.sh
+
+      - name: 上传 IPA 产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: GGMod-IPA
+          path: packages/*.ipa
+          retention-days: 7
