@@ -1,0 +1,36 @@
+#import <Foundation/Foundation.h>
+#import <CoreFoundation/CoreFoundation.h>
+#import <UIKit/UIKit.h>
+
+// Mach 内核头文件
+#import <mach/mach.h>
+#import <mach/mach_init.h>
+#import <mach/vm_map.h>
+#import <mach/task.h>
+#import <mach-o/dyld.h>
+#import <mach-o/loader.h>
+#import <mach-o/nlist.h>
+
+// 私有框架
+#import <sys/sysctl.h>
+#import <sys/types.h>
+#import <unistd.h>
+
+typedef NS_ENUM(NSInteger, GGSearchDataType) {
+    GGSearchDataTypeInt32    = 0,
+    GGSearchDataTypeInt64    = 1,
+    GGSearchDataTypeFloat    = 2,
+    GGSearchDataTypeDouble   = 3,
+    GGSearchDataTypeByte     = 4,
+};
+
+typedef NS_ENUM(NSInteger, GGScanType) {
+    GGScanTypeExact          = 0,  // 精确搜索
+    GGScanTypeBiggerThan     = 1,  // 大于
+    GGScanTypeSmallerThan    = 2,  // 小于
+    GGScanTypeChanged        = 3,  // 数值变化了
+    GGScanTypeUnchanged      = 4,  // 数值没变
+    GGScanTypeIncreased      = 5,  // 数值增加了
+    GGScanTypeDecreased      = 6,  // 数值减少了
+    GGScanTypeUnknown        = 7,  // 未知数值（首次搜索）
+};

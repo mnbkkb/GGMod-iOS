@@ -1,0 +1,22 @@
+{
+  "CFBundleName" = "GGMod";
+  "CFBundleDisplayName" = "GG Modifier";
+  "CFBundleIdentifier" = "com.ggmod.ios";
+  "CFBundleVersion" = "1.0.0";
+  "CFBundleShortVersionString" = "1.0.0";
+  "CFBundlePackageType" = "APPL";
+  "CFBundleExecutable" = "GGMod";
+  "CFBundleIcons" = {
+    "CFBundlePrimaryIcon" = {
+      "CFBundleIconFiles" = ("AppIcon60x60");
+    };
+  };
+  "UILaunchStoryboardName" = "LaunchScreen";
+  "UISupportedInterfaceOrientations" = (
+    "UIInterfaceOrientationPortrait"
+  );
+  "UIStatusBarStyle" = "UIStatusBarStyleLightContent";
+  "UIViewControllerBasedStatusBarAppearance" = false;
+  "NSTemporaryDirectory" = "/var/mobile/tmp/ggmod/";
+  "com.apple.springboard.launchapplications" = true;
+}
