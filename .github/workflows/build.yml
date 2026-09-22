@@ -1,4 +1,4 @@
-name: Build GGMod IPA
+name: Build Test IPA
 
 on:
   push:
@@ -14,18 +14,23 @@ jobs:
 
       - name: Setup Theos
         run: |
+          echo "=== 开始安装Theos ==="
           export THEOS=/tmp/theos
           git clone --recursive https://github.com/theos/theos.git $THEOS
           brew install ldid
           echo "THEOS=$THEOS" >> $GITHUB_ENV
+          echo "=== Theos安装完成 ==="
 
       - name: Build
         run: |
+          echo "=== 开始编译 ==="
           export THEOS=/tmp/theos
-          make package
+          make
+          echo "=== 编译完成 ==="
+          ls -la .theos/obj/
 
-      - name: Upload IPA
+      - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: GGMod-IPA
-          path: packages/*.deb
+          name: Test-App
+          path: .theos/obj/*
