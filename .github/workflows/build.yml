@@ -2,7 +2,7 @@ name: Build GGMod IPA
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -10,25 +10,22 @@ jobs:
     runs-on: macos-14
 
     steps:
-      - name: 检出代码
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: 安装 Theos
-        run: |
-          brew install ldid
-          sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
-          git clone --recursive https://github.com/theos/theos.git /tmp/theos
-          echo "THEOS=/tmp/theos" >> $GITHUB_ENV
-
-      - name: 编译项目
+      - name: Setup Theos
         run: |
           export THEOS=/tmp/theos
-          chmod +x build_ipa.sh
-          ./build_ipa.sh
+          git clone --recursive https://github.com/theos/theos.git $THEOS
+          brew install ldid
+          echo "THEOS=$THEOS" >> $GITHUB_ENV
 
-      - name: 上传 IPA 产物
+      - name: Build
+        run: |
+          export THEOS=/tmp/theos
+          make package
+
+      - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
           name: GGMod-IPA
-          path: packages/*.ipa
-          retention-days: 7
+          path: packages/*.deb
